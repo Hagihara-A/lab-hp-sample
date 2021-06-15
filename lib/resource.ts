@@ -77,7 +77,7 @@ export async function getMembers(): Promise<MemberProfile[]> {
             email: data.email,
             detail,
             role,
-            slug: `${person}-${role}`,
+            slug: `${path.basename(person, path.extname(person))}-${role}`,
           };
         })
       );
