@@ -42,7 +42,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <a>Publications</a>
           </Link>
           <Link href="/location">
-            <a>location</a>
+            <a>Location</a>
           </Link>
         </nav>
       </header>
