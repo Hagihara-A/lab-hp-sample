@@ -14,22 +14,22 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <a>aTeal</a>
         </Link>
         <nav>
-          <Link href="about">
+          <Link href="/about">
             <a>About aTeal</a>
           </Link>
-          <Link href="news">
+          <Link href="/news">
             <a>News</a>
           </Link>
-          <Link href="research">
+          <Link href="/research">
             <a>Research</a>
           </Link>
-          <Link href="member">
+          <Link href="/member">
             <a>Member</a>
           </Link>
-          <Link href="publications">
+          <Link href="/publications">
             <a>Publications</a>
           </Link>
-          <Link href="location">
+          <Link href="/location">
             <a>location</a>
           </Link>
         </nav>
