@@ -65,16 +65,17 @@ export async function getMembers(): Promise<MemberProfile[]> {
           const personContent = await fs.readFile(personFile);
           const { data, content } = matter(personContent);
           const detail = marked(content);
+          
           return {
-            name: { ja: data.name_ja, en: data.name_en },
+            name: { ja: data.name_ja, en: data.name_en ?? null },
             position: {
-              ja: data.position_ja,
-              en: data.position_en,
+              ja: data.position_ja ?? null,
+              en: data.position_en ?? null,
             },
             photoURL: data.photoURL
               ? `/portrait/${data.photoURL}`
               : `/portrait/nopic.jpg`,
-            email: data.email,
+            email: data.email ?? null,
             detail,
             role,
             slug: `${path.basename(person, path.extname(person))}-${role}`,
