@@ -3,7 +3,7 @@ import { getResearchHTML } from "../lib/resource";
 export default function Research({
   __html,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  return <div dangerouslySetInnerHTML={{ __html }} />;
+  return <main dangerouslySetInnerHTML={{ __html }} />;
 }
 type Props = {
   __html: string;
