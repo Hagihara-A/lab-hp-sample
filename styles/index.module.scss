@@ -1,0 +1,22 @@
+.logo {
+  width: 400px;
+  height: 400 * 0.3px;
+  position: relative;
+  margin: auto;
+  max-width: 100%;
+  min-height: 25vh;
+}
+.main {
+  background-image: url("/circuit1.jpg");
+  background-size: cover;
+  color: white;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  text-align: center;
+  h2 {
+    font-size: 4rem;
+  }
+  h3 {
+    font-size: 2rem;
+  }
+}
