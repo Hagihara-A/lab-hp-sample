@@ -35,3 +35,9 @@ export async function getResearchHTML() {
   const html = marked(content);
   return html;
 }
+export async function getLocationHTML() {
+  const filePath = path.join(contentsDir, "location.md");
+  const content = await fs.readFile(filePath, "utf-8");
+  const html = marked(content);
+  return html;
+}
