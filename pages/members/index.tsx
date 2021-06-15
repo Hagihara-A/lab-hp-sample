@@ -21,7 +21,7 @@ export default function Member({
               {people.map((person) => {
                 return (
                   <div>
-                    <Link href={`/member/${person.slug}`}>
+                    <Link href={`/members/${person.slug}`}>
                       <a>
                         <div
                           style={{

@@ -23,8 +23,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <Link href="/research">
             <a>Research</a>
           </Link>
-          <Link href="/member">
-            <a>Member</a>
+          <Link href="/members">
+            <a>Members</a>
           </Link>
           <Link href="/publications">
             <a>Publications</a>

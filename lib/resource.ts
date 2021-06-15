@@ -6,7 +6,7 @@ import { Roles, roles_en } from "./roles";
 
 const contentsDir = path.join(process.cwd(), "/contents");
 const newsDir = path.join(contentsDir, "news");
-const memberDir = path.join(contentsDir, "member");
+const membersDir = path.join(contentsDir, "members");
 export async function getAboutHTML() {
   const fpath = path.join(contentsDir, "about.md");
   const md = await fs.readFile(fpath);
@@ -56,7 +56,7 @@ export interface MemberProfile {
 export async function getMembers(): Promise<MemberProfile[]> {
   const memberProfiles = await Promise.all(
     roles_en.map(async (role) => {
-      const roleDir = path.join(memberDir, role);
+      const roleDir = path.join(membersDir, role);
       const persons = await fs.readdir(roleDir);
 
       const profiles = await Promise.all(
