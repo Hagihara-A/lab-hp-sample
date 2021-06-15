@@ -44,13 +44,14 @@ export async function getLocationHTML() {
   return html;
 }
 
-interface MemberProfile {
+export interface MemberProfile {
   name: { ja: string; en?: string };
   photoURL: `/portrait/${string}`;
   email?: string;
   position?: { ja?: string; en?: string };
   role: Roles;
   detail: string;
+  slug: `${string}-${Roles}`;
 }
 export async function getMembers(): Promise<MemberProfile[]> {
   const memberProfiles = await Promise.all(
@@ -75,7 +76,8 @@ export async function getMembers(): Promise<MemberProfile[]> {
               : `/portrait/nopic.jpg`,
             email: data.email,
             detail,
-            role: role as Roles,
+            role,
+            slug: `${person}-${role}`,
           };
         })
       );
