@@ -1,0 +1,13 @@
+.portrait {
+  width: 120px;
+  height: 120px;
+  position: relative;
+}
+.members {
+  display: flex;
+}
+.member {
+  margin: 0 15px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
