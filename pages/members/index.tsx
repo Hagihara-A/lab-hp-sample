@@ -22,9 +22,9 @@ export default function Member({
               <div className={s.members}>
                 {people.map((person) => {
                   return (
-                    <div className={s.member} key={person.slug}>
-                      <Link href={`/members/${person.slug}`}>
-                        <a>
+                    <Link href={`/members/${person.slug}`} key={person.slug}>
+                      <a>
+                        <div className={s.member} >
                           <div className={s.portrait}>
                             <Image
                               src={person.photoURL}
@@ -40,9 +40,9 @@ export default function Member({
                             {person.position?.ja}, {person.position?.en}
                           </p>
                           <p>{person.email?.replace("@", "[at]")}</p>
-                        </a>
-                      </Link>
-                    </div>
+                        </div>
+                      </a>
+                    </Link>
                   );
                 })}
               </div>
