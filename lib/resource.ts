@@ -29,3 +29,9 @@ export async function getNewsHTMLFromSlug(slug: string) {
   const html = marked(content);
   return html;
 }
+export async function getResearchHTML() {
+  const filePath = path.join(contentsDir, "research.md");
+  const content = await fs.readFile(filePath, "utf-8");
+  const html = marked(content);
+  return html;
+}
