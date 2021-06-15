@@ -1,3 +1,5 @@
+import { GetStaticProps } from "next";
+import { getLocationHTML } from "../lib/resource";
 type Props = { __html: string };
 export default function Location({ __html }: Props) {
   return (
@@ -7,9 +9,6 @@ export default function Location({ __html }: Props) {
     </main>
   );
 }
-
-import { GetStaticProps } from "next";
-import { getLocationHTML } from "../lib/resource";
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const __html = await getLocationHTML();
