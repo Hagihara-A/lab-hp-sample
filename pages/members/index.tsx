@@ -15,14 +15,14 @@ export default function Member({
         {roles_en.map((role) => {
           const people = members.filter((member) => member.role == role);
           return (
-            <>
+            <div key={role}>
               <h2>
                 {role} {roles[role]}
               </h2>
               <div className={s.members}>
                 {people.map((person) => {
                   return (
-                    <div className={s.member}>
+                    <div className={s.member} key={person.slug}>
                       <Link href={`/members/${person.slug}`}>
                         <a>
                           <div className={s.portrait}>
@@ -46,7 +46,7 @@ export default function Member({
                   );
                 })}
               </div>
-            </>
+            </div>
           );
         })}
       </div>
