@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "../styles/globals.scss";
 import hd from "../styles/header.module.scss";
 import ft from "../styles/footer.module.scss";
 import type { AppProps } from "next/app";
@@ -13,7 +13,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <header className={hd.header}>
-        <div>
+        <div className={hd.logo}>
           <Link href="/">
             <a>
               <Image
@@ -25,7 +25,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             </a>
           </Link>
         </div>
-        <nav>
+        <nav className={hd.nav}>
           <Link href="/about">
             <a>About</a>
           </Link>

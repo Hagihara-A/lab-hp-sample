@@ -3,19 +3,37 @@
   display: flex;
   justify-content: space-between;
   height: 96px;
-  div {
-    margin: 0 0 0 20px;
-    position: relative;
-    width: 200px;
+  > * {
+    margin: 10px;
   }
-  nav {
-    display: flex;
-    align-items: center;
-    > * {
-      font-size: large;
-      display: inline-block;
-      margin: 5px;
-      color: white;
+}
+
+.logo {
+  margin: 0 0 0 20px;
+  position: relative;
+  width: 400px;
+  @media screen and(max-width: 600px) {
+    width: 150px;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  overflow: scroll;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  > * {
+    font-size: large;
+    margin: 5px;
+    color: white;
+    @media screen and(max-width: 600px) {
+      font-size: medium;
     }
   }
 }

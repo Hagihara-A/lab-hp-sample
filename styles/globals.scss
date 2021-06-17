@@ -20,4 +20,7 @@ img {
 }
 main {
   padding: 0 10%;
+  @media screen and(max-width: 600px) {
+    padding: 0 15px;
+  }
 }
