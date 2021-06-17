@@ -2,6 +2,7 @@
   background-color: #141618;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   height: 96px;
   > * {
     margin: 10px;
@@ -9,25 +10,29 @@
 }
 
 .logo {
-  margin: 0 0 0 20px;
   position: relative;
   width: 400px;
-  @media screen and(max-width: 600px) {
-    width: 150px;
+  height: 80%;
+  @media screen and (max-width: 600px) {
+    width: 200px;
   }
 }
 
 .nav {
   display: flex;
   align-items: center;
-  overflow: scroll;
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 10%,
-    black 90%,
-    transparent
-  );
+
+  @media screen and (max-width: 600px) {
+    overflow: scroll;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+  }
+
   > * {
     font-size: large;
     margin: 5px;
