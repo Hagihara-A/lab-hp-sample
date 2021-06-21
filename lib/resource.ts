@@ -51,7 +51,7 @@ export interface MemberProfile {
   position?: { ja?: string; en?: string };
   role: Roles;
   detail: string;
-  slug: `${string}-${Roles}`;
+  slug: string;
 }
 export async function getMembers(): Promise<MemberProfile[]> {
   const memberProfiles = await Promise.all(
@@ -65,7 +65,7 @@ export async function getMembers(): Promise<MemberProfile[]> {
           const personContent = await fs.readFile(personFile);
           const { data, content } = matter(personContent);
           const detail = marked(content);
-          
+
           return {
             name: { ja: data.name_ja, en: data.name_en ?? null },
             position: {
@@ -78,7 +78,7 @@ export async function getMembers(): Promise<MemberProfile[]> {
             email: data.email ?? null,
             detail,
             role,
-            slug: `${path.basename(person, path.extname(person))}-${role}`,
+            slug: `${path.basename(person, path.extname(person))}`,
           };
         })
       );
