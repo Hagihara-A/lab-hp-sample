@@ -22,14 +22,18 @@ export default function Member({
               <div className={s.members}>
                 {people.map((person) => {
                   return (
-                    <Link href={`/members/${person.slug}`} key={person.slug}>
+                    <Link
+                      href={`/members/${person.role}/${person.slug}`}
+                      key={person.slug}
+                    >
                       <a>
-                        <div className={s.member} >
+                        <div className={s.member}>
                           <div className={s.portrait}>
                             <Image
                               src={person.photoURL}
                               layout="fill"
                               objectFit="contain"
+                              alt="face photo"
                             />
                           </div>
                           <p>
