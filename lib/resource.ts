@@ -45,7 +45,7 @@ export async function getLocationHTML() {
 }
 
 export interface MemberProfile {
-  name: { ja: string; en?: string };
+  name: { ja: string; en: string };
   photoURL: `/portrait/${string}`;
   email?: string;
   position?: { ja?: string; en?: string };
@@ -64,10 +64,16 @@ export async function getMembers(): Promise<MemberProfile[]> {
           const personFile = path.join(roleDir, person);
           const personContent = await fs.readFile(personFile);
           const { data, content } = matter(personContent);
+          if (typeof data.name_ja != "string") {
+            throw new Error(`${personFile} doesn't contain name_ja.`);
+          }
+          if (typeof data.name_en != "string") {
+            throw new Error(`${personFile} doesn't contain name_en.`);
+          }
           const detail = marked(content);
 
           return {
-            name: { ja: data.name_ja, en: data.name_en ?? null },
+            name: { ja: data.name_ja, en: data.name_en },
             position: {
               ja: data.position_ja ?? null,
               en: data.position_en ?? null,
