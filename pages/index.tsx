@@ -4,7 +4,12 @@ export default function Home() {
   return (
     <main className={s.main}>
       <div className={s.logo}>
-        <Image src="/logo-white.svg" layout="fill" objectFit="contain" />
+        <Image
+          src="/logo-white.svg"
+          layout="fill"
+          objectFit="contain"
+          alt="logo"
+        />
       </div>
 
       <h2>Analog Technology and Application Lab.</h2>

@@ -10,7 +10,7 @@ export default function Member({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <main>
-      <h1>メンバー一覧</h1>
+      <h1>Members</h1>
       <div>
         {roles_en.map((role) => {
           const people = members.filter((member) => member.role == role);
@@ -33,7 +33,7 @@ export default function Member({
                               src={person.photoURL}
                               layout="fill"
                               objectFit="contain"
-                              alt="face photo"
+                              alt="portrait"
                             />
                           </div>
                           <p>

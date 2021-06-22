@@ -10,7 +10,7 @@ export default function News({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <main>
-      <h1>ニュース一覧</h1>
+      <h1>News</h1>
       <div>
         {posts.map(({ title, slug }) => (
           <article className={s.article} key={slug}>

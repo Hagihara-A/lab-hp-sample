@@ -16,7 +16,7 @@ export default function News({
           src={profile.photoURL}
           layout="fill"
           objectFit="contain"
-          alt="face photo"
+          alt="portrait"
         />
       </div>
       <h1>
