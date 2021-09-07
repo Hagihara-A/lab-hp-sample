@@ -12,6 +12,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const onMenuStateChange = useCallback((s) => setIsMenuOpen(s.isOpen), []);
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+
+  const MenuLink = ({ path }: { path: string }) => (
+    <Link href={path}>
+      <a onClick={closeMenu} className={hd.menu}>
+        {path}
+      </a>
+    </Link>
+  );
+
   return (
     <>
       <Head>
@@ -31,34 +40,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             </a>
           </Link>
         </div>
-        <Menu
-          right
-          isOpen={isMenuOpen}
-          onStateChange={onMenuStateChange}
-          noTransition
-        >
-          <MenuLink href="/about" displayTxt="About" closeMenu={closeMenu} />
-          <MenuLink href="/news" displayTxt="News" closeMenu={closeMenu} />
-          <MenuLink
-            href="/members"
-            displayTxt="Members"
-            closeMenu={closeMenu}
-          />
-          <MenuLink
-            href="/research"
-            displayTxt="Research"
-            closeMenu={closeMenu}
-          />
-          <MenuLink
-            href="/publications"
-            displayTxt="Publications"
-            closeMenu={closeMenu}
-          />
-          <MenuLink
-            href="/location"
-            displayTxt="Location"
-            closeMenu={closeMenu}
-          />
+        <Menu right isOpen={isMenuOpen} onStateChange={onMenuStateChange}>
+          <MenuLink path="about" />
+          <MenuLink path="news" />
+          <MenuLink path="members" />
+          <MenuLink path="research" />
+          <MenuLink path="publications" />
+          <MenuLink path="location" />
         </Menu>
       </header>
       <Component {...pageProps} />
@@ -67,21 +55,5 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         ©2021 aTeal 伊藤研究室 All rights reserved.
       </footer>
     </>
-  );
-}
-
-function MenuLink({
-  href,
-  displayTxt,
-  closeMenu,
-}: {
-  href: `/${string}`;
-  displayTxt: string;
-  closeMenu: () => void;
-}) {
-  return (
-    <Link href={href}>
-      <a onClick={closeMenu}>{displayTxt}</a>
-    </Link>
   );
 }
