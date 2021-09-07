@@ -4,16 +4,22 @@ import matter from "gray-matter";
 import marked from "marked";
 import { Roles, roles_en } from "./roles";
 
-const contentsDir = path.join(process.cwd(), "/contents");
+const contentsDir = path.join(process.cwd(), "contents");
 const newsDir = path.join(contentsDir, "news");
 const membersDir = path.join(contentsDir, "members");
-export async function getAboutHTML() {
-  const fpath = path.join(contentsDir, "about.md");
-  const md = await fs.readFile(fpath);
-  const gray = matter(md);
-  const html = marked(gray.content);
-  return { content: html };
-}
+
+export const getContent = async (...paths: string[]) => {
+  const fpath = path.join(contentsDir, ...paths);
+  return fs.readFile(fpath, { encoding: "utf-8" });
+};
+
+export const getTopContentNames = async () => {
+  const dirs = await fs.readdir(contentsDir, { withFileTypes: true });
+  return dirs
+    .filter((dir) => dir.isFile())
+    .map((file) => path.basename(file.name, ".md"));
+};
+
 export async function getNewsFnames() {
   const fnames = await fs.readdir(newsDir, "utf-8");
   return fnames;
@@ -25,20 +31,9 @@ export async function getNewsSlugs() {
   );
   return slugs;
 }
+
 export async function getNewsHTMLFromSlug(slug: string) {
   const filePath = path.join(newsDir, slug + ".md");
-  const content = await fs.readFile(filePath, "utf-8");
-  const html = marked(content);
-  return html;
-}
-export async function getResearchHTML() {
-  const filePath = path.join(contentsDir, "research.md");
-  const content = await fs.readFile(filePath, "utf-8");
-  const html = marked(content);
-  return html;
-}
-export async function getLocationHTML() {
-  const filePath = path.join(contentsDir, "location.md");
   const content = await fs.readFile(filePath, "utf-8");
   const html = marked(content);
   return html;
@@ -53,6 +48,7 @@ export interface MemberProfile {
   detail: string;
   slug: string;
 }
+
 export async function getMembers(): Promise<MemberProfile[]> {
   const memberProfiles = await Promise.all(
     roles_en.map(async (role) => {
