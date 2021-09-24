@@ -3,10 +3,12 @@ import * as fs from "fs/promises";
 import matter from "gray-matter";
 import marked from "marked";
 import { Roles, roles_en } from "./roles";
+import * as yaml from "js-yaml";
 
 const contentsDir = path.join(process.cwd(), "contents");
 const newsDir = path.join(contentsDir, "news");
 const membersDir = path.join(contentsDir, "members");
+const pubsDir = path.join(contentsDir, "publications");
 
 export const getContent = async (...paths: string[]) => {
   const fpath = path.join(contentsDir, ...paths);
@@ -89,3 +91,27 @@ export async function getMembers(): Promise<MemberProfile[]> {
   );
   return memberProfiles.flat();
 }
+
+export type Publication = {
+  year: string;
+  contents: {
+    [classification: string]: string[] | null;
+  };
+};
+export const getPublications = async (): Promise<Publication[]> => {
+  const publications = (await fs.readdir(pubsDir, { withFileTypes: true }))
+    .filter((ent) => ent.isFile())
+    .map(async (file) => {
+      const pubPath = path.join(pubsDir, file.name);
+      const rawContent = await fs.readFile(pubPath, "utf8");
+      const year = path.basename(file.name, path.extname(file.name));
+      const contents = yaml.load(rawContent) as {
+        [K: string]: string[] | null;
+      };
+      return {
+        year,
+        contents,
+      };
+    });
+  return Promise.all(publications);
+};
