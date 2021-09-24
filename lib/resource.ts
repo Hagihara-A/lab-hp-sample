@@ -15,31 +15,24 @@ export const getContent = async (...paths: string[]) => {
   return fs.readFile(fpath, { encoding: "utf-8" });
 };
 
+export const getNews = async () => {
+  const newsFileNames = (await fs.readdir(newsDir, { withFileTypes: true }))
+    .filter((file) => file.isFile())
+    .map((file) => file.name);
+  const newsHtmlPromises = newsFileNames.map(async (name) => {
+    const slug = path.basename(name, path.extname(name));
+    const p = path.join(newsDir, name);
+    const rawContent = await fs.readFile(p, "utf-8");
+    return { slug, content: marked(rawContent) };
+  });
+  return Promise.all(newsHtmlPromises);
+};
 export const getTopContentNames = async () => {
   const dirs = await fs.readdir(contentsDir, { withFileTypes: true });
   return dirs
     .filter((dir) => dir.isFile())
     .map((file) => path.basename(file.name, ".md"));
 };
-
-export async function getNewsFnames() {
-  const fnames = await fs.readdir(newsDir, "utf-8");
-  return fnames;
-}
-export async function getNewsSlugs() {
-  const fnames = await getNewsFnames();
-  const slugs = fnames.map((fname) =>
-    path.basename(fname, path.extname(fname))
-  );
-  return slugs;
-}
-
-export async function getNewsHTMLFromSlug(slug: string) {
-  const filePath = path.join(newsDir, slug + ".md");
-  const content = await fs.readFile(filePath, "utf-8");
-  const html = marked(content);
-  return html;
-}
 
 export interface MemberProfile {
   name: { ja: string; en: string };
