@@ -13,10 +13,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const onMenuStateChange = useCallback((s) => setIsMenuOpen(s.isOpen), []);
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
-  const MenuLink = ({ path }: { path: string }) => (
+  const MenuLink = ({ path }: { path: `/${string}` }) => (
     <Link href={path}>
       <a onClick={closeMenu} className={hd.menu}>
-        {path}
+        {path.slice(1)}
       </a>
     </Link>
   );
@@ -41,12 +41,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           </Link>
         </div>
         <Menu right isOpen={isMenuOpen} onStateChange={onMenuStateChange}>
-          <MenuLink path="about" />
-          <MenuLink path="news" />
-          <MenuLink path="members" />
-          <MenuLink path="research" />
-          <MenuLink path="publications" />
-          <MenuLink path="location" />
+          <MenuLink path="/about" />
+          <MenuLink path="/news" />
+          <MenuLink path="/members" />
+          <MenuLink path="/research" />
+          <MenuLink path="/publications" />
+          <MenuLink path="/location" />
         </Menu>
       </header>
       <Component {...pageProps} />
