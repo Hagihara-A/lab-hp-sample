@@ -26,7 +26,7 @@ export default function Publications(
 export const getStaticProps: GetStaticProps<{ publications: Publication[] }> =
   async () => {
     const pubs = await getPublications();
-    return { props: { publications: pubs } };
+    return { props: { publications: pubs.sort((a, b) => (a > b ? 1 : -1)) } };
   };
 
 const PublicationDetail = ({
