@@ -1,6 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import Link from "next/link";
-import { getNewsSlugs } from "../../lib/resource";
+import { getNews } from "../../lib/resource";
 import s from "../../styles/news.module.scss";
 type Props = {
   posts: { title: string; slug: string }[];
@@ -25,10 +25,10 @@ export default function News({
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const slugs = await getNewsSlugs();
-  const posts = slugs.map((slug) => ({
-    title: slug,
-    slug: slug,
+  const news = await getNews();
+  const posts = news.map((ent) => ({
+    title: ent.slug,
+    slug: ent.slug,
   }));
   return { props: { posts } };
 };
