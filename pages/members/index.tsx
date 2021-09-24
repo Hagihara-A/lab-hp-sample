@@ -2,48 +2,50 @@ import { InferGetStaticPropsType } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getMembers } from "../../lib/resource";
-import { roles, roles_en } from "../../lib/roles";
+import { ROLE_TRANSLATE } from "../../lib/roles";
 import s from "../../styles/members.module.scss";
 
 export default function Member({
   members,
+  roles,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <main>
       <h1>Members</h1>
       <div>
-        {roles_en.map((role) => {
-          const people = members.filter((member) => member.role == role);
+        {roles.map((role) => {
+          const membersInRole = members.filter((m) => m.role === role);
           return (
             <div key={role}>
               <h2>
-                {role} {roles[role]}
+                {role} {ROLE_TRANSLATE[role] ?? null}
               </h2>
               <div className={s.members}>
-                {people.map((person) => {
+                {membersInRole.map((member) => {
                   return (
                     <Link
-                      href={`/members/${person.role}/${person.slug}`}
-                      key={person.slug}
+                      href={`/members/${role}/${member.slug}`}
+                      key={member.slug}
                     >
                       <a>
                         <div className={s.member}>
                           <div className={s.portrait}>
                             <Image
-                              src={person.photoURL}
+                              src={member.photoURL}
                               layout="fill"
                               objectFit="contain"
                               alt="portrait"
                             />
                           </div>
                           <p>
-                            {person.name?.ja}, {person.name?.en}
+                            {member.name?.ja ?? null}, {member.name?.en ?? null}
                           </p>
 
                           <p>
-                            {person.position?.ja}, {person.position?.en}
+                            {member.position?.ja ?? null},{" "}
+                            {member.position?.en ?? null}
                           </p>
-                          <p>{person.email?.replace("@", "[at]")}</p>
+                          <p>{member.email?.replace("@", "[at]") ?? null}</p>
                         </div>
                       </a>
                     </Link>
@@ -58,7 +60,6 @@ export default function Member({
   );
 }
 export const getStaticProps = async () => {
-  const members = await getMembers();
-
-  return { props: { members } };
+  const { roles, members } = await getMembers();
+  return { props: { roles, members } };
 };
