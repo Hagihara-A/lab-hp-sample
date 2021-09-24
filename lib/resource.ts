@@ -2,7 +2,7 @@ import * as path from "path";
 import * as fs from "fs/promises";
 import matter from "gray-matter";
 import marked from "marked";
-import { Roles, roles_en } from "./roles";
+import { ROLE_ORDERS } from "./roles";
 import * as yaml from "js-yaml";
 
 const contentsDir = path.join(process.cwd(), "contents");
@@ -44,56 +44,65 @@ export const getRootEntries = async () => {
   return Promise.all(entryPromises);
 };
 
-export interface MemberProfile {
-  name: { ja: string; en: string };
+export type MemberProfile = {
+  name: { ja: string | null; en: string | null };
   photoURL: `/portrait/${string}`;
-  email?: string;
-  position?: { ja?: string; en?: string };
-  role: Roles;
+  email: string | null;
+  position: { ja: string | null; en: string | null };
   detail: string;
   slug: string;
+  role: string;
+};
+
+export async function getMembers(): Promise<{
+  members: MemberProfile[];
+  roles: string[];
+}> {
+  const roles = (await fs.readdir(membersDir, { withFileTypes: true }))
+    .filter((ent) => ent.isDirectory())
+    .map((dir) => dir.name)
+    .sort((a, b) => {
+      const a_order = ROLE_ORDERS[a] ?? Infinity;
+      const b_order = ROLE_ORDERS[b] ?? Infinity;
+      return a_order > b_order ? 1 : a_order === b_order ? 0 : -1;
+    });
+  const fullPathsPromises = roles.map(async (role) => {
+    const memberFiles = (
+      await fs.readdir(path.join(membersDir, role), { withFileTypes: true })
+    )
+      .filter((ent) => ent.isFile())
+      .map((file) => path.join(membersDir, role, file.name));
+    return memberFiles;
+  });
+  const fullPaths = (await Promise.all(fullPathsPromises)).flat();
+  const memberPromises = fullPaths.flatMap(async (fullPath) => {
+    const raw = await fs.readFile(fullPath, "utf8");
+    return parseRawMemberContent(raw, fullPath);
+  });
+  return { roles, members: await Promise.all(memberPromises) };
 }
 
-export async function getMembers(): Promise<MemberProfile[]> {
-  const memberProfiles = await Promise.all(
-    roles_en.map(async (role) => {
-      const roleDir = path.join(membersDir, role);
-      const persons = await fs.readdir(roleDir);
-
-      const profiles = await Promise.all(
-        persons.map(async (person): Promise<MemberProfile> => {
-          const personFile = path.join(roleDir, person);
-          const personContent = await fs.readFile(personFile);
-          const { data, content } = matter(personContent);
-          if (typeof data.name_ja != "string") {
-            throw new Error(`${personFile} doesn't contain name_ja.`);
-          }
-          if (typeof data.name_en != "string") {
-            throw new Error(`${personFile} doesn't contain name_en.`);
-          }
-          const detail = marked(content);
-
-          return {
-            name: { ja: data.name_ja, en: data.name_en },
-            position: {
-              ja: data.position_ja ?? null,
-              en: data.position_en ?? null,
-            },
-            photoURL: data.photoURL
-              ? `/portrait/${data.photoURL}`
-              : `/portrait/nopic.jpg`,
-            email: data.email ?? null,
-            detail,
-            role,
-            slug: `${getStem(person)}`,
-          };
-        })
-      );
-      return profiles;
-    })
-  );
-  return memberProfiles.flat();
-}
+const parseRawMemberContent = (
+  raw: string,
+  fullPath: string
+): MemberProfile => {
+  const { data, content } = matter(raw);
+  const detail = marked(content);
+  return {
+    name: { ja: data?.name_ja ?? null, en: data?.name_en ?? null },
+    position: {
+      ja: data?.position_ja ?? null,
+      en: data?.position_en ?? null,
+    },
+    detail,
+    photoURL: data?.photoURL
+      ? `/portrait/${data.photoURL}`
+      : `/portrait/nopic.jpg`,
+    slug: getStem(fullPath),
+    role: path.basename(path.dirname(fullPath)),
+    email: data?.email ?? null,
+  };
+};
 
 export type Publication = {
   year: string;
