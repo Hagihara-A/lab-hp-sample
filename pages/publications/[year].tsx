@@ -1,11 +1,5 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
-import head from "next/head";
-import {
-  getPublicationFromYear,
-  getPublications,
-  getPublicationYears,
-  Publication,
-} from "../../lib/resource";
+import { getPublications, Publication } from "../../lib/resource";
 
 export default function PublicationPage({
   publication: { year, contents },
@@ -52,3 +46,4 @@ export const getStaticProps: GetStaticProps<
   const publication = pubs.find((pub) => pub.year === year)!;
   return { props: { publication } };
 };
+
