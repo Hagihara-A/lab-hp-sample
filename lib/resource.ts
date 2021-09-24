@@ -10,28 +10,38 @@ const newsDir = path.join(contentsDir, "news");
 const membersDir = path.join(contentsDir, "members");
 const pubsDir = path.join(contentsDir, "publications");
 
-export const getContent = async (...paths: string[]) => {
-  const fpath = path.join(contentsDir, ...paths);
-  return fs.readFile(fpath, { encoding: "utf-8" });
-};
+const getStem = (fileName: string) =>
+  path.basename(fileName, path.extname(fileName));
 
 export const getNews = async () => {
   const newsFileNames = (await fs.readdir(newsDir, { withFileTypes: true }))
     .filter((file) => file.isFile())
     .map((file) => file.name);
   const newsHtmlPromises = newsFileNames.map(async (name) => {
-    const slug = path.basename(name, path.extname(name));
+    const slug = getStem(name);
     const p = path.join(newsDir, name);
     const rawContent = await fs.readFile(p, "utf-8");
     return { slug, content: marked(rawContent) };
   });
   return Promise.all(newsHtmlPromises);
 };
-export const getTopContentNames = async () => {
-  const dirs = await fs.readdir(contentsDir, { withFileTypes: true });
-  return dirs
-    .filter((dir) => dir.isFile())
-    .map((file) => path.basename(file.name, ".md"));
+
+export const getRootEntries = async () => {
+  const entryPromises = (await fs.readdir(contentsDir, { withFileTypes: true }))
+    .filter((ent) => ent.isFile())
+    .map(async (fileEnt) => {
+      const slug = path.basename(fileEnt.name, path.extname(fileEnt.name));
+      const raw = await fs.readFile(
+        path.join(contentsDir, fileEnt.name),
+        "utf8"
+      );
+      return {
+        slug,
+        parsedContent: marked(raw),
+      };
+    });
+
+  return Promise.all(entryPromises);
 };
 
 export interface MemberProfile {
@@ -75,7 +85,7 @@ export async function getMembers(): Promise<MemberProfile[]> {
             email: data.email ?? null,
             detail,
             role,
-            slug: `${path.basename(person, path.extname(person))}`,
+            slug: `${getStem(person)}`,
           };
         })
       );
@@ -97,7 +107,7 @@ export const getPublications = async (): Promise<Publication[]> => {
     .map(async (file) => {
       const pubPath = path.join(pubsDir, file.name);
       const rawContent = await fs.readFile(pubPath, "utf8");
-      const year = path.basename(file.name, path.extname(file.name));
+      const year = getStem(file.name);
       const contents = yaml.load(rawContent) as {
         [K: string]: string[] | null;
       };
