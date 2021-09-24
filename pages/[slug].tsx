@@ -1,10 +1,11 @@
 import marked from "marked";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
-import { getContent, getTopContentNames } from "../lib/resource";
+import { getRootEntries } from "../lib/resource";
 
 type Props = {
   html: string;
 };
+
 export default function Page({
   html,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -18,19 +19,16 @@ export default function Page({
 export const getStaticProps: GetStaticProps<Props, { slug: string }> = async ({
   params,
 }) => {
-  const slug = params?.slug;
-  if (typeof slug === "undefined") {
-    throw new Error("slug if undefined");
-  }
-  const content = await getContent(slug + ".md");
-  const html = marked(content);
+  const slug = params!.slug;
+  const entries = await getRootEntries();
+  const html = entries.find((ent) => ent.slug === slug)!.parsedContent;
 
   return { props: { html } };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const slugs = await getTopContentNames();
-  const paths = slugs.map((slug) => ({ params: { slug } }));
+  const entries = await getRootEntries();
+  const paths = entries.map((ent) => ({ params: { slug: ent.slug } }));
 
   return {
     fallback: false,
