@@ -1,0 +1,8 @@
+"International Conferences":
+  - Jim Bartels, Korkut Kaan Tokgoz, Masamoto Fukuwa, Shohei Otsubo, Li Chao, Ikumi Rachi, Kenichi Takeda, Hiroyuki Ito, “A 216 μW, 87% Accurate Cow Behavior Classifying Decision Tree on FPGA with Interpolated Arctan2,” IEEE International Symposium on Circuits and Systems (ISCAS), Daegu, Korea, May 2021, pp. 1-5.
+  - Akihiro Uchiyama, Takashi Ichikawa, Kohei Shibata, Shin-ichi Iida, Sangyeop Lee, Noboru Ishihara,Katsuyuki Machida, Kazuya Masu, Hiroyuki Ito “A MEMS ACCELEROMETER WITH A SINGLE AXIS TWO PROOF MASSES FOR A WIDE DETECTION RANGE” June 2021 The 21st International Conference on Solid-State Sensors, Actuators and Microsystems (Transducers 2021) Online, B2-2A2, 20-25 June 2021
+"Domestic Conferences":
+  - Chao Li, Korkut Kaan Tokgoz, 奥村歩加, Jim Bartels, 府川政元, 戸田和宏, 松島宏明, 大橋匠, 竹田謙一, 伊藤浩之,「Data Augmentation for Improving Deep Learning in Animal Behavior Classification」 電子情報通信学会 集積回路研究専門委員会 LSIとシステムのワークショップ，2021年5月10日-11日.
+  - 良知郁実, Korkut Kaan Tokgon, 府川政元, Li Chao, Jim Barels, A Sihan, 李尚曄, 竹田謙一, 伊藤 浩之,「加速度センサを用いたウシ行動推定におけるサンプリングレートの検討」 電子情報通信学会 集積回路研究専門委員会 LSIとシステムのワークショップ，2021年5月10日-11日.
+  - 柴田　滉平, 内山　晃宏, 大西　哲, 李　尚曄, 石原　昇, 町田　克之, 益　一哉, 伊藤　浩之, 「1軸差動型CMOS-MEMS加速度センサの統合設計シミュレーションの検討」, 令和3年度E部門総合研究会 , MSS-21-047, 2021年7月26日-27日
+  - 大西 哲, 内山 晃宏, 柴田 滉平, 市川 崇志, 李 尚曄, 飯田 慎一, 石原 昇, 町田 克之, 益 一哉, 伊藤 浩之,「3D容量検出電極による単一Au錘3軸MEMS加速度センサの検討」第82回 応用物理学会秋季学術講演会, 10a-N302-4, オンライン, 2020年9月10日-13日.
